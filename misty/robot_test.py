@@ -76,10 +76,11 @@ class Misty:
 
 
 def testActionScript():
-    m = Misty("192.168.1.3")
+    m = Misty("192.168.1.10")
     #m.startSkill()
     action = [{ 'name': 'SetEyes', 'args': ['happy'] }, { 'name': 'SayText', 'args': ['This is a test, this is only a test.  You may now resume your debugging activities.'] }, { 'name': 'LookInDirection', 'args': ['center'] }, {'name': 'Pause','args': [500]}, { 'name': 'TiltHead', 'args': ['right', 'small'] }]
     action = [{ 'name': 'PointAt', 'args': ['downwards', 'both']}, {'name': 'Pause', 'args': [2000]}, {'name': 'SayText', 'args':['Congratulations!']}, { 'name': 'PointAt', 'args': ['upwards', 'both']}]
+    action = [{ 'name': 'PointAt', 'args': ['default', 'both']}, { 'name': 'SetEyes', 'args': ['default'] }, { 'name': 'LookInDirection', 'args': ['center'] }]
     #action = [{'name': 'PointAt', 'args': ['straightOut', 'left']}, {'name': 'SetEyes', 'args': ['thinking']}, {'name': 'SayText', 'args': ['Do you want any help?']}, {'name': 'LookInDirection', 'args': ['center']}, {'name': 'SetEyes', 'args': ['looking']}, {'name': 'PointAt', 'args': ['downwards', 'both']}]
     m.executeActionScript(action)
 

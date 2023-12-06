@@ -16,6 +16,7 @@ def scenario1(state1,ps):
     return plan(state1, [["inquire", "misty"]], ps)
 
 def scenario2(state1,ps): #test persist doing-great
+    print("scenario2")
     state1.add(["time", "long"])
     state1.add(["level","l2"])
     state1.add(["game", "no-error"])
@@ -38,8 +39,9 @@ def scenario5(state1, ps): #test instruct level 4
     return plan(state1, [["instruct", "Misty"]], ps)
 
 def scenario6(state1, ps): #test intro 
-    state1.add(["intro", "2"])
-    return plan(state1, [["greeting", "Misty"]], ps)
+    state1.add(["script", "intro", "1"])
+    state1.add(["taskState", "unstarted"])
+    return plan(state1, [["followScript", "Misty"]], ps)
 
 def scenario7(state1, ps): #test confirm
     #state1.add(["interaction", "short"])
@@ -52,8 +54,8 @@ def scenario8(state1, ps): #test instruct level 3
     return plan(state1, [["instruct", "Misty"]], ps)
 
 def scenario9(state1, ps): #test instruct level 3
-    state1.add(["level", "l2"])
-    return plan(state1, [["missingPiece", "Misty"]], ps)
+    state1.add(["level", "l3"])
+    return plan(state1, [["reconcileBelief", "Misty"]], ps)
 
 
 def scenario10(state1, ps): #test instruct swap
