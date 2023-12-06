@@ -1,0 +1,1645 @@
+
+1 CONFIRM
+
+CONFIRM LEVEL 1;
+
+(:method great-job
+    :parameters()
+    :task(confirm )
+    :precondition(and 
+        (affect negative)
+        (level l1))
+    :ordered-subtasks(and
+        (SetEyes happy)
+        (Nod)
+        (sayTextandPause "Great job") 
+        (LookInDirection center )
+        (release-turn )))
+
+(:method looks-good
+    :parameters()
+    :task(confirm )
+    :precondition (and
+        (gaze task)
+        (level l1))
+    :ordered-subtasks(and
+        (lookAtPieces )
+        (SayText "That looks good")
+        (SetEyes happy)
+        (release-turn )))
+
+
+(:method good-job
+    :parameters()
+    :task(confirm )
+    :precondition(and 
+        (affect positive)
+        (level l1))
+    :ordered-subtasks(and
+        (SetEyes happy)
+        (Nod )
+        (sayTextandPause "Good job") 
+        (LookInDirection center)
+        (release-turn )))
+
+
+
+CONFIRM LEVEL 2 & LEVEL 3;
+
+(:method so-close
+    :parameters()
+    :task(confirm )
+    :precondition (and
+        (taskState close)
+        (level l2))
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (SayText "You are so close")
+        (release-turn ))
+    )
+
+
+(:method almost-done-cheerful
+    :parameters()
+    :task(confirm )
+    :precondition (and
+        (taskState almost-done)
+        (level l2))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText "Nice. You are almost done" )
+        (PointAt upwards both)
+        (release-turn))
+            )
+
+(:method almost-done
+    :parameters()
+    :task(confirm )
+    :precondition (and
+        (taskState almost-done)
+        (level l2))
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (SayText "Nice, you are almost done")
+        (release-turn ))
+    )
+
+
+(:method done
+    :parameters()
+    :task(confirm )
+    :precondition(and
+        (taskState done))
+    :ordered-subtasks(and
+        (SetEyes love)
+        (PointandPause upwards both)
+        (sayTextandPause "Yay! You got it all. You did great! Hooray") 
+        (PointandPause default both)))
+
+CONFIRM DEFUALT;
+
+(:method simple-confirm
+    :parameters()
+    :task(confirm )
+    :precondition()
+    :ordered-subtasks(and
+        (Take-turn)
+        (Nod )
+        (SayText "That's right") 
+        (Pause 300)
+        (LookInDirection center)
+        (release-turn )))
+
+
+2 INSTRUCT LEVEL 2 & LEVEL 3 & LEVEL 4;
+
+(:method repeat
+    :parameters()
+    :task (repeat ?text)
+    :precondition()
+    ::ordered-subtasks (and
+        (LookInDirection center )
+        (SayText ?text)
+        (release-turn)))
+
+
+INSTRUCT LEVEL 2;
+
+;SHAKE
+(:method Shake
+    :parameters()
+    :task(instruct )
+    :precondition(and
+        (needsToBe ?piece ?act ?z)
+        (taskState error)
+        (rapport high)
+        (level l2))
+    :ordered-subtasks (and
+        (ShakeNo)
+        (Pause 1000)
+        (sayTextandPause "Not quite")
+        (release-turn )))
+
+
+(:method another-way
+    :parameters()
+    :task (instruct )
+    :precondition (and
+        (taskState error)
+        (level l2))
+    :ordered-subtasks(and
+        (LookInDirection down )
+        (claim-eyes )
+        (Pause 200 )
+        (SayText "Maybe try another  way?")
+        (TiltHead left small )
+        (Pause 1000 )
+        (LookInDirection center )))
+
+
+(:method so-close
+    :parameters()
+    :task(instruct )
+    :precondition (and
+        (taskState close)
+        (level l2))
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (sayTextandPause "You are so close")
+        (release-turn ))
+    )
+
+
+(:method match-picture-question
+    :parameters()
+    :task (instruct )
+    :precondition (and
+        (rapport high)
+        (needsToBe ?piece ?act ?z)
+        (level l2))
+    :ordered-subtasks(and
+        (take-turn )
+        (lookAtPicture )
+        (PointandPause downwards left)
+        (sayTextandPause "Does that match the picture?")
+        (LookandPause lowerRight)
+        (release-turn )))
+
+(:method mistake
+    :parameters()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece ?act ?z)
+        (level l2))
+    :ordered-subtasks(and
+        (take-turn )
+        (lookAtPieces )
+        (sayTextandPause "There's a mistake somewhere, can you try to find it?")
+        (release-turn )))
+
+
+INSTRUCT LEVEL 3;
+
+(:method x-looks-good
+    :parameters()
+    :task(instruct )
+    :precondition (and
+        (needsToBe ?piece not touched)
+        (level l3))
+    :ordered-subtasks(and
+        (looking-around)
+        (SetEyes scared )
+        (SayText ?piece)
+        (TiltHead left small)
+        (SayText "looks right")
+        (release-turn )))
+
+
+(:method check-x
+    :parameters ()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece ?act ?z)
+        (rapport high)
+        (level l3))
+    :ordered-subtasks(and
+        (lookAtPieces )
+        (tiltHeadandPause right small)
+        (SayText "Could you check the")
+        (SayText ?piece)
+        (release-turn )))
+
+(:method missing-x
+    :parameters()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece missing ?z)
+        (level l3))
+    :ordered-subtasks(and
+        (take-turn )
+        (lookAtPieces )
+        (TiltHead left small)
+        (SayText "I think you are missing the")
+        (SayText ?piece)
+        (release-turn )))
+
+
+(:method x-wrong-way
+    :parameters ()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece spin ?z)
+        (level l3))
+    :ordered-subtasks(and
+        (SetEyes scared)
+        (LookInDirection center )
+        (SayText "The")
+        (SayText ?piece) 
+        (SayText "is facing the wrong way")
+        (tiltHeadandPause right small)
+        (release-turn )))
+
+
+(:method x-wrong-way2
+    :parameters ()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece flip ?z)
+        (level l3))
+    :ordered-subtasks(and
+        (SetEyes scared)
+        (LookInDirection center )
+        (SayText "The")
+        (SayText ?piece) 
+        (SayText "is facing the wrong way")
+        (tiltHeadandPause right small)
+        (release-turn )))
+
+(:method x-wrong-spot
+    :parameters ()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece ?act ?z)
+        (level l3))
+    :ordered-subtasks(and
+        (SetEyes scared)
+        (LookInDirection center )
+        (SayText "The")
+        (SayText ?piece) 
+        (SayText "is in the wrong spot")
+        (tiltHeadandPause left small)
+        (release-turn )))
+
+
+
+
+INSTRUCT LEVEL 4;
+
+(:method flip-x
+    :parameters()
+    :task(instruct )
+    :precondition(and
+        (needsToBe ?piece flip ?z)
+        (level l4))
+    :ordered-subtasks(and
+        (LookandPause down )
+        (LookInDirection center )
+        (SetEyes thinking )
+        (Pause 300 )
+        (TiltHead left small )
+        (SayText "Can you try flipping the")
+        (SayText ?piece)
+        (release-turn)))
+
+
+(:method connect-x-and-y
+    :parameters()
+    :task(instruct )
+    :precondition(and
+        (needsToBe ?piece connect ?piece2 )
+        (level l4))
+    :ordered-subtasks(and
+        (LookInDirection down )
+        (claim-eyes ) 
+        (Pause 1000 )
+        (LookInDirection center )
+        (SayText "Connect")
+        (SayText ?piece)
+        (SayText "together with")
+        (SayText ?piece2)
+        (release-turn )))
+
+
+(:method connect-corner-x-and-y
+    :parameters()
+    :task(instruct )
+    :precondition(and
+        (needsToBe ?piece connect-corner ?piece2)
+        (level l4))
+    :ordered-subtasks(and
+        (LookInDirection down )
+        (claim-eyes ) 
+        (Pause 1000 )
+        (LookInDirection center )
+        (SayText "Could you connect the corner of")
+        (SayText ?piece)
+        (SayText "with")
+        (SayText ?piece2)
+        (release-turn )))
+
+(:method spin-left
+    :parameters()
+    :task (instruct )
+    :precondition (and 
+        (needsToBe ?piece spin left)
+        (level l4))
+    :ordered-subtasks(and
+        (LookandPause down)
+        (LookInDirection center)
+        (PointAt straightOut both)
+        (SayText "Could you spin the")
+        (SayText ?piece)
+        (SayText "left")
+        (Pause 1000)
+        (tiltHeadandPause left large)
+        (PointAt upwards left)
+        (PointAt downwards right)
+        (Pause 2000)
+        (release-turn )
+        ))
+
+(:method spin-right
+    :parameters()
+    :task (instruct )
+    :precondition (and 
+        (needsToBe ?piece spin right)
+        (level l4))
+    :ordered-subtasks(and
+        (LookandPause down)
+        (LookInDirection center)
+        (PointAt straightOut both)
+        (SayText "Could you spin the")
+        (SayText ?piece)
+        (SayText "right")
+        (Pause 2000)
+        (tiltHeadandPause right large)
+        (PointAt upwards right)
+        (PointAt downwards left)
+        (Pause 1000)
+        (release-turn )
+        ))
+
+(:method move-x-loc
+    :parameters()
+    :task (instruct )
+    :precondition (and 
+        (needsToBe ?piece move ?dir)
+        (level l4))
+    :ordered-subtasks(and
+        (take-turn)
+        (SayText "Could you move the")
+        (SayText ?piece)
+        (SayText "more")
+        (LookInDirection ?dir)
+        (SayText ?dir)
+        (Pause 2000)
+        (release-turn )))
+
+(:method slide-x
+    :parameters()
+    :task (instruct )
+    :precondition (and 
+        (needsToBe ?piece slide ?dir)
+        (level l4))
+    :ordered-subtasks(and
+        (take-turn)
+        (SayText "Could you slide the")
+        (SayText ?piece)
+        (SayText "a little more")
+        (SayText ?dir)
+        (Pause 3000)
+        (LookInDirection ?dir)
+        (release-turn )))
+
+
+
+(:method step-by-step-swap
+    :parameters()
+    :task (instruct )
+    :precondition (and 
+        (rapport low)
+        (needsToBe ?piece swap ?piece2)
+        (level l4))
+    :ordered-subtasks(and
+        (take-turn )
+        (remove ?piece)
+        (find ?piece2)
+        (replace ?piece2)))
+
+
+(:method swap-original
+    :parameters()
+    :task (instruct )
+    :precondition (and 
+        (rapport high)
+        (needsToBe ?piece swap ?piece2)
+        (level l4))
+    :ordered-subtasks(and
+        (LookInDirection down )
+        (SetEyes looking )
+        (Pause 1000 )
+        (LookInDirection center )
+        (SayText "Swap the")
+        (SayText ?piece)
+        (SayText " and the ")
+        (SayText  ?piece2)))
+ 
+
+
+(:method swap
+    :parameters()
+    :task (instruct )
+    :precondition (and 
+        (needsToBe ?piece swap ?piece2)
+        (level l4))
+    :ordered-subtasks(and
+        (LookandPause down)
+        (LookandPause center)
+        (SayText "Could you swap the")
+        (SayText ?piece)
+        (SayText "and the")
+        (SayText ?piece2)
+        (Pause 1500)
+        (looking-around )
+        (release-turn )))
+
+(:method find-x
+    :parameters()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece missing find)
+        (level l4))
+    :ordered-subtasks(and
+        (take-turn)
+        (SayText "Could you find me the")
+        (sayTextandPause ?piece)
+        (looking-around)))
+
+(:method keep-spinning
+    :parameters()
+    :task (instruct )
+    :precondition (and
+        (needsToBe ?piece spin keep)
+        (level l4))
+    :ordered-subtasks(and
+        (take-turn )
+        (LookInDirection center) 
+        (SayText "Keep spinning")
+        (release-turn)))
+
+(:method spin-more-dir
+    :parameters()
+    :task (instruct )
+    :precondition (and
+        (needsToBe spin more ?dir)
+        (level l4))
+    :ordered-subtasks(and
+        (take-turn )
+        (SayText "Spin a little more")
+        (SayText ?dir)
+        (Pause 500 )
+        (TiltHead ?dir small)))
+
+
+REUSABLE METHODS FOR INSTRUCT;
+
+(:method find1
+    :parameters(?piece)
+    :task (find ?piece)
+    :precondition ()
+    :ordered-subtasks(and
+        (LookandPause down)
+        (LookInDirection center)
+        (SetEyes happy)
+        (SayText "Could you find me the")
+        (sayTextandPause ?piece)
+        (release-turn)))
+
+(:method remove1
+    :parameters(?piece)
+    :task (remove ?piece)
+    :precondition ()
+    :ordered-subtasks(and
+        (LookandPause down)
+        (LookInDirection center)
+        (SetEyes confused)
+        (SayText "Could you remove the")
+        (SayText ?piece)
+        (pointAtPieces)
+        (release-turn)))
+
+(:method replace1
+    :parameters(?piece)
+    :task (replace ?piece)
+    :precondition ()
+    :ordered-subtasks(and
+        (LookandPause down)
+        (LookInDirection center)
+        (SetEyes happy)
+        (SayText "Ok now if you could replace it with")
+        (sayTextandPause ?piece)
+        (release-turn)))
+
+INSTRUCT DEFUALT;
+
+
+(:method dont-think-so
+    :parameters()
+    :task(instruct )
+    :precondition()
+    :ordered-subtasks (and
+        (ShakeNo)
+        (Pause 1000)
+        (sayTextandPause "I dont think so")
+        (release-turn )))
+
+3 PERSIST LEVEL 2;
+
+
+(:method doing-ok
+    :parameters ()
+    :task (persist )
+    :precondition(and 
+        (rapport low))
+    :ordered-subtasks(and 
+        (take-turn )
+        (lookAtPieces )
+        (sayTextandPause "You got this")
+        (release-turn ))
+)
+
+
+(:method doing-great
+    :parameters ()
+    :task(persist )
+    :precondition(
+        (taskState no-error))
+    :ordered-subtasks(and
+        (SetEyes love)
+        (PointAt upwards both)
+        (LookInDirection up )
+        (Pause 1000)
+        (SayText  "You are doing great")
+        (release-turn )))
+
+
+(:method doing-bad
+    :parameters ()
+    :task(persist )
+    :precondition(and 
+        (affect negative)
+        (rapport high))
+    :ordered-subtasks(and 
+        (SetEyes happy )
+        (SayText "Its ok. take your time" )))
+
+(:method doing-bad2
+    :parameters ()
+    :task(persist )
+    :precondition(and 
+        (affect negative))
+    :ordered-subtasks(and 
+        (SetEyes love)
+        (TiltHead left small)
+        (SayText "It's ok take your time")
+        (Pause 1500)
+        (SetEyes happy)))
+    
+
+
+(:method doing-ok
+    :parameters ()
+    :task (persist )
+    :precondition(and
+        (gaze robot))
+    :ordered-subtasks(and 
+        (SetEyes happy )
+        (TiltHead right small )
+        (Pause 700 )
+        (SayText "Keep trying, you got this." )
+        (release-turn ))
+)
+
+
+(:method doing-ok-defualt
+    :parameters ()
+    :task (persist )
+    :precondition()
+    :ordered-subtasks(and 
+        (take-turn )
+        (lookAtPieces )
+        (sayTextandPause "You got this")
+        (release-turn ))
+)
+
+
+
+4 INQUIRE LEVEL 2 & 3 & 4 ;
+
+
+(:method give-up-question
+    :parameters ()
+    :task (inquire )
+    :precondition (and
+        (affect negative)
+        (rapport low)
+        (level l4))
+    :ordered-subtasks(and
+        (take-turn)
+        (tiltHeadandPause right small )
+        (SayText "Would you like to give up?")
+        (release-turn ))
+            )
+
+
+
+(:method how-going
+    :parameters ()
+    :task (inquire )
+    :precondition (and
+        (rapport low))
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (SayText "Hows it going sew far?")
+        (release-turn ))
+    )
+
+
+
+
+(:method offer-help-with-that-question
+    :parameters ()
+    :task (inquire )
+    :precondition (
+        (rapport high))
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (sayTextandPause "Do you want any help with that?")
+        (PointAt downwards left)
+        (release-turn ))
+    )
+
+
+(:method ask-what-part-question
+    :parameters ()
+    :task (inquire )
+    :precondition (and
+        (level l3))
+    :ordered-subtasks(and
+        (take-turn)
+        (SayText "Would you like to tell me what part you are working on here?")
+        (release-turn ))
+    )
+
+
+
+(:method offer-help-question
+    :parameters ()
+    :task (inquire )
+    :precondition ()
+    :ordered-subtasks(and
+        (SetEyes thinking )
+        (tiltHeadandPause left small )
+        (sayTextandPause "Do you want any help?" )
+        (tiltHeadandPause right small )
+        (SetEyes confused ))
+    )
+
+
+
+5 INFORM LEVEL 3;
+
+(:method touching
+    :parameters()
+    :task(inform )
+    :precondition(and
+        (taskState not-touching))
+    :ordered-subtasks(and
+        (TiltHead left small )
+        (take-turn)
+        (Pause 500)
+        (SayText "The pieces should be touching" )
+        (release-turn))
+    )
+
+(:method flat-down-high-rapport
+    :parameters()
+    :task(inform )
+    :precondition(and
+        (taskState not-flat)
+        (rapport high))
+    :ordered-subtasks(and
+        (TiltHead left small )
+        (SetEyes scared )
+        (SayText "The pieces should be flat down on the table" )
+        (release-turn ))
+    )
+    
+
+(:method flat-down
+    :parameters()
+    :task(inform )
+    :precondition(and
+        (taskState not-flat))
+    :ordered-subtasks(and
+        (take-turn )
+        (pointAtPieces )
+        (sayTextandPause "The pieces should be flat down on the table")
+        (release-turn ))
+    )
+
+(:method look-at-pic
+    :parameters()
+    :task(inform )
+    :precondition(and
+        (taskState not-flipped))
+    :ordered-subtasks(and
+        (take-turn )
+        (PointandPause downwards left)
+        (sayTextandPause "You can look at the picture while building")
+        (release-turn )))
+
+(:method move-to-table
+    :parameters()
+    :task(inform )
+    :precondition (and
+        (taskState on-paper))
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (sayTextandPause "Could you try building it off the paper and on the table?")
+        (release-turn ))
+    )
+
+(:method missing-piece
+    :parameters()
+    :task(inform )
+    :precondition (and
+        (taskState missingPiece))
+    :ordered-subtasks(and
+        (reconcileBelief)))
+
+
+6 MISSING PIECE LEVEL 2-4;
+
+(:method all-pieces-question-simple
+    :parameters()
+    :task(reconcileBelief )
+    :precondition(and
+        (rapport high)
+        (level l2))
+    :ordered-subtasks(and
+        (SetEyes thinking ) 
+        (SayText "Do you have all the pieces?" ) 
+        (Pause 1000 ) 
+        (TiltHead left large )
+        (release-turn)))
+
+
+(:method all-pieces-question
+    :parameters()
+    :task(reconcileBelief )
+    :precondition(and
+        (level l2))
+    :ordered-subtasks(and
+        (take-turn )
+        (lookAtPieces )
+        (sayTextandPause "HUHHHHHH")
+        (pointAtPicture )
+        (sayTextandPause "Do you have all the pieces?")
+        (release-turn )))
+
+(:method piece-missing
+    :parameters()
+    :task(reconcileBelief )
+    :precondition(and
+        (level l3))
+    :ordered-subtasks(and
+        (looking-around )
+        (take-turn )
+        (SayText "I think there's a piece missing, can you try to find it on the table?")
+        (Pause 2000)
+        (release-turn )))
+
+(:method direct-missing-pieces
+    :parameters()
+    :task(reconcileBelief )
+    :precondition(and
+        (level l4))
+    :ordered-subtasks(and
+        (looking-around )
+        (take-turn )
+        (sayTextandPause "Oops, the piece is in the green bag, I forgot about it.")
+        (LookandPause left)
+        (release-turn )))
+
+
+7 WARM UP (RAPPORT);
+
+(:method hello
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 1))
+    :ordered-subtasks(and
+        (LookandPause upperLeft)
+        (setEyesandPause happy)
+        (sayTextandPause "Hello")
+        (PointandPause upwards left)
+        (PointAt straightOut left)
+        (Pause 200)
+        (PointAt upwards left)
+        (sayTextandPause "welcome")
+        (PointAt default left)
+        (LookInDirection center)
+        (SetEyes default)))
+
+(:method self-intro
+    :parameters()
+    :task(followScript )
+    :precondition(and 
+        (taskState unstarted)
+        (script intro 2))
+    :ordered-subtasks(and 
+        (SetEyes happy)
+        (SayText "My name is Misty. What is your name?")
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead right small )))
+
+(:method nice-to-meet-you
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 3))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText "Nice to meet you!" )
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead right small )
+        ))
+
+(:method how-are-you
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 4))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText "How are you doing today?" )
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead right small )
+        ))
+
+(:method glad-to-hear
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 5))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText "Great." )
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead right small )
+        (release-turn)
+        ))
+
+(:method fav-color
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 6))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText "What is your favorite color?" )
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead right small )))
+
+
+(:method pink-too
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 7)
+        (verbal pink))
+    :ordered-subtasks(and
+        (setEyesandPause love)
+        (tiltHeadandPause right small)
+        (sayTextandPause "Thats awesome, my favorite color is pink too")
+        (SetEyes default)))
+
+(:method pink
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 7))
+    :ordered-subtasks(and
+        (sayTextandPause "Nice, my favorite color is pink.")
+        (TiltHead right small)
+        (SetEyes default)))
+
+
+(:method look-to-pieces
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 8))
+    :ordered-subtasks(and
+        (LookInDirection upperLeft )
+        (Pause 500 )
+        (LookInDirection center )
+        (LookInDirection upperRight )
+        (Pause 500 )
+        (LookInDirection center )
+        (SetEyes happy )
+        (SayText Could you look to the colorful pieces on your left. )
+        (Pause 1000 )
+        (LookInDirection left )
+        ))
+
+
+(:method triangle
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 9))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText Could you find me a triangle? )
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead right small )
+        ))
+
+
+
+(:method color-of-triangle
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 10))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText Can you tell me what color the triangle is. )
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead left small )
+        ))
+    
+
+(:method thank-you
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 11))
+    :ordered-subtasks(and
+        (SetEyes love )
+        (SayText "Thank you." )
+        (LookInDirection center )
+        (Pause 500 )
+        (TiltHead left small )
+        (release-turn)))
+
+
+
+(:method game?
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 12))
+    :ordered-subtasks(and
+        (LookInDirection upperLeft )
+        (Pause 500 )
+        (LookInDirection center )
+        (LookInDirection upperRight )
+        (Pause 500 )
+        (LookInDirection center )
+        (SetEyes happy )
+        (SayText Do you want to play a little game now? )
+        (Pause 1000 )
+        (LookInDirection left )))
+
+
+
+(:method find-x1
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 13))
+    :ordered-subtasks(and
+        (SetEyes looking )
+        (TiltHead left small )
+        (SayText "Could you find me the small blue triangle")))
+
+
+
+(:method find-x2
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 14))
+    :ordered-subtasks(and
+        (SetEyes looking )
+        (TiltHead left small )
+        (SayText "Could you find me the yellow square")))
+
+
+(:method house
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 15))
+    :ordered-subtasks(and
+        (SetEyes happy)
+        (sayTextandPause "Using the two pieces, can you build a house?")
+        (tiltHead left small)))
+
+
+(:method picture
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 16))
+    :ordered-subtasks(and
+        (SayText "Ok now could you flip over that paper to see the picture." )
+        (lookAtPicture)
+        (LookInDirection center )))
+
+(:method build
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 17))
+    :ordered-subtasks(and
+        (SayText "using all of the pieces, you should build something like the picture!" )
+        (LookInDirection left )
+        (Pause 1000 )
+        (LookInDirection center )))
+
+(:method begin
+    :parameters()
+    :task(followScript )
+    :precondition(and
+        (taskState unstarted)
+        (script intro 18))
+    :ordered-subtasks(and
+        (setEyesandPause happy)
+        (tiltHead left small)
+        (sayTextandPause "I will be here to help you.")
+        (release-turn)))
+    
+    
+
+8 SOCIAL;
+
+(:method simple-yes
+    :parameters()
+    :task(social )
+    :precondition(and 
+        (verbal question))
+    :ordered-subtasks(and
+        (take-turn)
+        (Nod)
+        (SayText "yes") 
+        (Pause 300)
+        (LookInDirection center)
+        (release-turn )))
+
+(:method thank-you
+    :parameters()
+    :task(social )
+    :precondition (and
+        (verbal compliment))
+    :ordered-subtasks(and
+        (LookandPause center)
+        (setEyesandPause love)
+        (tiltHeadandPause left small)
+        (sayTextandPause "Thank you")
+        (release-turn )))
+
+
+(:method you-are-welcome
+    :parameters()
+    :task(social )
+    :precondition (and
+        (verbal thank-you))
+    :ordered-subtasks(and
+        (setEyesandPause happy)
+        (tiltHeadandPause left small)
+        (sayTextandPause "You are welcome")
+        (release-turn ))
+    )
+
+
+(:method bye-bye
+    :parameters()
+    :task(social )
+    :precondition (and
+        (taskState done))
+    :ordered-subtasks(and
+        (setEyesandPause happy)
+        (tiltHeadandPause left small)
+        (sayTextandPause "Bye bye")
+        (wave)
+        (release-turn ))
+    )
+
+
+(:method break
+    :parameters()
+    :task(social )
+    :precondition (and
+        (affect negative))
+    :ordered-subtasks(and
+        (setEyesandPause love)
+        (sayTextandPause "I'm sorry")
+        (tiltHeadandPause left small)
+        (SetEyes love)
+        (sayTextandPause "We can take a break if you want to.")
+        ))
+
+
+(:method empty-positive-phrase
+    :parameters()
+    :task(social )
+    :precondition(and
+        (affect positive))
+    :ordered-subtasks(and
+        (take-turn )
+        (sayTextandPause "Cool") 
+        (release-turn )))
+
+(:method empty-phrase
+    :parameters()
+    :task(social )
+    :precondition(and
+        (rapport high))
+    :ordered-subtasks(and
+        (take-turn )
+        (SayText "I see") 
+        (release-turn )))
+
+
+(:method delay-social
+    :parameters()
+    :task(social )
+    :precondition()
+    :ordered-subtasks(and
+        (delay)))
+
+
+9 SELF CORRECT;
+
+
+(:method sorry
+    :parameters()
+    :task(sorry )
+    :precondition ()
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (setEyesandPause love)
+        (sayTextandPause "I'm sorry")
+        (defaultCenter ))
+    )
+
+
+(:method never-mind 
+    :parameters()
+    :task (never-mind )
+    :precondition (and
+        (rapport high))
+    :ordered-subtasks(and
+        (SetEyes confused )
+        (TiltHead left small )
+        (Pause 300 )
+        (SayText "Sorry, forget about what  I  just said"  )
+        (release-turn)))
+
+(:method never-mind-sincere 
+    :parameters()
+    :task (never-mind )
+    :precondition ()
+    :ordered-subtasks(and
+        (take-turn )
+        (tiltHeadandPause left small)
+        (setEyesandPause love)
+        (sayTextandPause "Im sorry")
+        (sayTextandPause "Forget what I just said")
+        (release-turn )))
+
+
+
+HESITATION;
+
+
+(:method good-question 
+    :parameters()
+    :task (delay )
+    :precondition (and
+        (verbal question))
+    :ordered-subtasks(and
+        (TiltHead right small )
+        (SayText "Thats a really good question." )))
+
+(:method slow 
+    :parameters()
+    :task (delay )
+    :precondition (
+        (affect negative))
+    :ordered-subtasks(and
+        (TiltHead left small )
+        (SetEyes scared )
+        (sayTextandPause "Sorry, I am a little slow sometimes" )
+        (TiltHead right small )
+        (release-turn)))
+
+
+(:method thinking 
+    :parameters()
+    :task (delay )
+    :precondition (and
+        (rapport low))
+    :ordered-subtasks(and
+        (SetEyes happy )
+        (SayText "Im thinking." )))
+
+(:method thinking 
+    :parameters()
+    :task (delay )
+    :precondition (and
+        (rapport low))
+    :ordered-subtasks(and
+        (setEyesandPause confused)
+        (TiltHead left large)
+        (SayText "Im thinking")))
+
+(:method empty-phrase-ok
+    :parameters()
+    :task(delay )
+    :precondition()
+    :ordered-subtasks(and
+        (take-turn )
+        (SayText "Ok") 
+        (release-turn )))
+
+
+10 TAKE TURN & RELEASE TURN;
+
+(:method take-turn1
+    :parameters ()
+    :task (take-turn )
+    :precondition ()
+    :ordered-subtasks(and
+        (claim-look )
+        (claim-eyes )))
+
+
+(:method claim-look-1
+    :parameters ()
+    :task (claim-look )
+    :precondition (and
+        (gaze robot))
+    :ordered-subtasks(and
+        (LookInDirection center)))
+
+(:method claim-look-high-rapport
+    :parameters ()
+    :task (claim-look )
+    :precondition (and
+        (rapport high))
+    :ordered-subtasks( 
+    ))
+
+
+(:method claim-look-2
+    :parameters ()
+    :task (claim-look )
+    :precondition: (and
+        (gaze task))
+    :ordered-subtasks(and
+        (LookandPause down)
+        (LookInDirection center)))
+
+(:method claim-look-3
+    :parameters ()
+    :task (claim-look )
+    :precondition (and
+        (gaze away))
+    :ordered-subtasks(and
+        (looking-around )))
+
+DEFUALT CLAIM LOOK;
+
+(:method claim-look-0
+    :parameters ()
+    :task (claim-look )
+    :precondition ()
+    :ordered-subtasks(and
+        (LookInDirection center)))
+
+
+
+
+(:method claim-eyes-1
+    :parameters ()
+    :task (claim-eyes )
+    :precondition (and
+        (affect negative))
+    :ordered-subtasks(and
+        (SetEyes love)))
+
+(:method claim-eyes-2
+    :parameters ()
+    :task (claim-eyes )
+    :precondition (and
+        (affect positive))
+    :ordered-subtasks(and
+        (SetEyes happy)))
+
+
+(:method claim-eyes-0
+    :parameters ()
+    :task (claim-eyes )
+    :precondition ()
+    :ordered-subtasks(and
+        (SetEyes looking)))
+
+(:method claim-eyes-default
+    :parameters ()
+    :task (claim-eyes )
+    :precondition (and
+        (eyes default))
+    :ordered-subtasks(
+    ))
+
+RELEASE TURN;
+
+
+(:method release-turn1
+    :parameters ()
+    :task (release-turn )
+    :precondition (and
+        (gaze task))
+    :ordered-subtasks(and
+        (Pause 1500)
+        (defaultDown )))
+
+(:method release-turn2
+    :parameters ()
+    :task (release-turn )
+    :precondition (and
+        (gaze robot))
+    :ordered-subtasks(and
+        (Pause 1500)
+        (defaultCenter )))
+
+
+DEFUALT RELEASE-TURN;
+
+(:method release-turn0
+    :parameters ()
+    :task (release-turn )
+    :precondition ()
+    :ordered-subtasks(
+    ))
+
+
+
+11 APPLICABLE GESTURES (SINGLE METHOD) WITH PAUSE;
+
+(:method ShakeNo1
+    :parameters()
+    :task (ShakeNo )
+    :precondition()
+    :ordered-subtasks(and
+        (LookInDirection left )
+        (Pause 300)
+        (LookInDirection right )
+        (Pause 300)
+        (SetEyes confused )
+        (LookInDirection left )
+        (Pause 200)
+        (LookInDirection center)))
+
+(:method wave1
+    :parameters()
+    :task (wave )
+    :precondition()
+    :ordered-subtasks(and
+        (PointandPause upwards left)
+        (PointAt straightOut left)
+        (Pause 200)
+        (PointAt upwards left)
+        (Pause 800)
+        (PointAt default left)))
+
+
+
+(:method looking-around1
+    :parameters()
+    :task (looking-around )
+    :precondition()
+    :ordered-subtasks(and
+        (SetEyes looking)
+        (LookandPause lowerLeft)
+        (LookandPause lowerRight)
+        (LookandPause center)))
+
+(:method lookAtPieces1
+    :parameters()
+    :task(lookAtPieces )
+    :precondition()
+    :ordered-subtasks(and
+        (SetEyes looking)
+        (LookandPause lowerLeft)
+        (LookandPause center)))
+
+(:method lookAtPicture1
+    :parameters()
+    :task(lookAtPicture )
+    :precondition()
+    :ordered-subtasks(and
+        (SetEyes looking)
+        (LookandPause lowerRight)
+        (LookandPause center)))
+
+
+(:method nod1
+    :parameters()
+    :task(Nod )
+    :precondition()
+    :ordered-subtasks(and
+        (LookInDirection up)
+        (Pause 300)
+        (LookInDirection down)))
+
+(:method defaultCenter1
+    :parameters()
+    :task(defaultCenter )
+    :precondition()
+    :ordered-subtasks(and 
+        (Pause 3000)
+        (LookandPause center)
+        (setEyesandPause looking)
+        (PointandPause default both)
+        (Pause 1000))
+)
+
+(:method defaultDown1
+    :parameters ()
+    :task (defaultDown )
+    :precondition( )
+    :ordered-subtasks(and
+        (Pause 3000)
+        (LookandPause down)
+        (setEyesandPause looking)
+        (PointandPause default both)
+        (Pause 1000))
+)
+
+(:method pointAtPieces1
+    :parameters ()
+    :task (pointAtPieces )
+    :precondition ()
+    :ordered-subtasks(and 
+        (LookandPause down)
+        (TiltHead left small)
+        (PointandPause downwards left))
+    )
+
+(:method pointAtPicture1
+    :parameters ()
+    :task (pointAtPicture )
+    :precondition ()
+    :ordered-subtasks(and 
+        (LookInDirection down)
+        (Pause 700)
+        (TiltHead right small)
+        (Pause 700)
+        (SetEyes confused)
+        (PointAt downwards right)
+        (Pause 800))
+    )
+
+
+12 SKILLS WITH PAUSE;
+
+(:method sayTextandPause1
+    :parameters (?text)
+    :task (sayTextandPause ?text)
+    :precondition ()
+    :ordered-subtasks(and 
+        (SayText ?text)
+        (Pause 700)))
+
+(:method PointandPause1
+    :parameters (?dir ?arm)
+    :task (PointandPause ?dir ?arm)
+    :precondition ()
+    :ordered-subtasks(and 
+        (PointAt ?dir ?arm)
+        (Pause 1000)))
+
+
+(:method LookandPause1
+    :parameters (?dir)
+    :task (LookandPause ?dir)
+    :precondition ()
+    :ordered-subtasks(and 
+        (LookInDirection ?dir)
+        (Pause 500)))
+
+(:method tiltHeadandPause1
+    :parameters (?dir ?amt)
+    :task (tiltHeadandPause ?dir ?amt)
+    :precondition ()
+    :ordered-subtasks(and
+        (TiltHead ?dir ?amt)
+        (Pause 500)))
+
+(:method setEyesandPause1
+    :parameters (?emotion)
+    :task (setEyesandPause ?emotion)
+    :precondition ()
+    :ordered-subtasks(and 
+        (SetEyes ?emotion)
+        (Pause 100)))
+
+
+
+
+OPERATORS;
+
+
+(:action SayText
+    :parameters (?text)
+    :precondition()
+    :effect ())
+
+(:action PointAt
+    :parameters (?dir ?arm)
+    :precondition()
+    :effect ())
+
+(:action LookInDirection
+    :parameters (?dir)
+    :precondition ( )
+    :effect ())
+
+(:action SetEyes
+    :parameters (?emotion)
+    :precondition()
+    :effect())
+
+(:action TiltHead
+    :parameters (?dir ?amt)
+    :precondition()
+    :effect())
+
+(:action Pause
+    :parameters (?time)
+    :precondition()
+    :effect())
+
+
+
+
+
+
