@@ -1,6 +1,6 @@
 from pyshop.pyshop import PyShop
 from pyshop.pyshop import State
-import robot_test
+import send_actionscript
 import json
 import argparse
 import sys
@@ -124,7 +124,7 @@ def run_test(function, on_robot):
     data = plan_converter(function(state1, ps))
       
     if on_robot:
-        misty.executeActionScript(data)
+        nao.executeActionScript(data)
         print("Action executed!")
 
 
@@ -142,8 +142,8 @@ if __name__ == '__main__':
     ps = init_planner(args.file)
     
     if args.robot:
-        misty = robot_test.Misty(args.address)
-        misty.startSkill()
+        nao = send_actionscript.Nao(args.address)
+        nao.startSkill()
 
     if args.interactive:
         state1 = State("interactive")
@@ -199,7 +199,7 @@ if __name__ == '__main__':
                     continue
 
                 if args.robot:
-                    misty.executeActionScript(data)
+                    nao.executeActionScript(data)
     
 
 
