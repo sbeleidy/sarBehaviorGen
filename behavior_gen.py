@@ -172,18 +172,16 @@ if __name__ == '__main__':
     
     
     if args.nao:
-        import nao.send_actionscript
-        robot = nao.send_actionscript.Nao(args.address)
-        robot.startSkill()
+        import nao.nao_robot
+        robot = nao.nao_robot.Nao(args.address)
     elif args.misty:
-        import misty.robot_test
-        misty = misty.robot_test.Misty(args.address)
-        misty.startSkill()
+        import misty.misty_robot
+        robot = misty.misty_robot.Misty(args.address)
     else:
-        import social_robot as r
+        import robot.social_robot as r
         robot = r.SocialRobot(args.address)
-        robot.startSkill()
-
+        
+    robot.startSkill()
     beh_gen = SarBehaviorGenerator(robot, args.file)
 
     if args.interactive:
@@ -196,8 +194,6 @@ if __name__ == '__main__':
         state1.add(["needsToBe", "small blue triangle", "slide", "right"])
         state1.add(["intro","8"])
         state1.add(["verbal", "hello"])
-    
-
 
         last_plan = ''
         user_input = '?'

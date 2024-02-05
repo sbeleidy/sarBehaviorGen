@@ -1,6 +1,6 @@
-
 import requests
 import json
+from robot.social_robot import SocialRobot
 
 EVENT_NAME = "ActionScript"
 SKILL_ID = "7d6fe0a1-61b4-4df5-872a-568776310d2f"
@@ -10,7 +10,7 @@ headers = {
     'Content-type': 'application/json'
 }
 
-class Nao:
+class Nao(SocialRobot):
     IP = "192.168.1.3"
     # http://127.0.0.1:5000/api
     server_ip = "127.0.0.1"
