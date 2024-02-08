@@ -9,7 +9,7 @@ The current HTN model can be found in models/misty.hddl.  This model describes b
 The planner is PyShop, a derivative of Pyhop, both of which use the SHOP algorithm.  Unlike Pyhop, PyShop uses a declarative representation of the model, encoded in a hddl file.
 You can download PyShop at https://github.com/FandM-CARES/pyshop.  You will need to install it to use the behavior generator.
 
-This package also provides middleware to run the behaviors on social robots.  Currently, there are two supported platforms: the NAO and Misty robots.
+This package also provides middleware to run the behaviors on social robots.  The goal is to provide a single definition of behaviors that may then be run on any social robot platform [2](#). Currently, there are two supported platforms: the NAO and Misty robots.
 The Misty interface also requires a Skill running on the robot.  You can find the code for that Skill at https://github.com/FandM-CARES/psiMisty.
 The NAO interfaces uses a local server to receive the behavior and then execute it on the robot.  That code can be found at
 https://github.com/SturgeonInc/nao_api.
@@ -38,3 +38,45 @@ To test the interface to a Misty robot, try the following:
 python3 behavior_gen.py --misty --address 192.168.1.3
 ```
 Replace the IP address for the Misty robot. 
+
+## Integration
+
+Running this from the terminal is fun and all, but it will be more useful if you can integrate it into a larger system.  A key step in doing this is instantiating the `SarBehaviorGenerator`.  When creating the instance, you must provide a reference to a `robot`.  If you are interfacing with the NAO robot, that could would look something like this:
+```
+robot = nao.nao_robot.Nao(address)
+```
+See `behavior_gen.py` for further examples.
+
+The primary function you need is `SarBehaviorGenerator.performBehaviorFor(intent, state)`, which will plan out the behavior and then execute it on the robot.
+
+
+## Modeling Behaviors
+
+The `general.hddl` file describes a set of reusable behaviors.  This includes the more abstract *assistive intents* [1](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447), which are the basic types of communicative acts the robot may need to express.  The ontology from which these are derived describes the following types of intents:
+- Task-oriented
+	- Inform
+	- Instruct
+	- Confirm
+	- Inquire (also Social)
+	- Follow Script (also Social)
+- Social
+	- Persist
+
+Basic turn-taking strategies are also included.  This includes a collectin of behavior for `take-turn` and `release-turn`.
+
+A variety of other resuable behaviors are also provided.  This includes behaviors to wave, shake head, look around, and more.  
+Finally, the file describes the basic actions that are available:
+- SayText
+- PointAt
+- LookInDirection
+- SetEyes (SetEmotion)
+- TiltHead
+- Pause
+
+All of these actions are performed on the robot as non-blocking calls.  As a result, actions can be done nearly simultaneously by having them called one immediately after the other.  Currently, to have the next action be delayed and be performed after the previous one, the Pause action needs to be used. (Future developments will have options to allow each action to be synchronous or asynchronous).
+
+In the models directory, other hddl files may be found that extend the general behaviors to provide assistance for a specific task.  For example, the `tangram.hddl` file is used to generate the necessary behaviors for supporting a child complete a tangram puzzle [1](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447).
+
+## References
+
+\[1\] Yang, Y., Langer, A., Howard, L., Marshall, P. J., & Wilson, J. R. (2023). [Towards an Ontology for Generating Behaviors for Socially Assistive Robots Helping Young Children.](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447) In Proceedings of the AAAI Symposium Series (Vol. 2, No. 1, pp. 213-218).

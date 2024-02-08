@@ -6,9 +6,9 @@ import sys
 
 class SarBehaviorGenerator:
 
-    def __init__(self, robot, filePath='models/misty.hddl'):
+    def __init__(self, robot, filePaths=['models/gneral.hddl']):
         self.robot = robot
-        self.init_planner(filePath)
+        self.init_planner(filePaths)
 
     def performBehaviorFor(self, intent, state):
         action_script = plan(state, [intent], self.ps)
@@ -20,11 +20,12 @@ class SarBehaviorGenerator:
             return False
 
 
-    def init_planner(self, filePath):
+    def init_planner(self, filePaths):
         self.ps = PyShop('init')
 
-        self.ps.declare_methods(filePath)   
-        self.ps.declare_operators(filePath)  
+        for fp in filePaths:
+            self.ps.declare_methods(fp)   
+            self.ps.declare_operators(fp)  
         
         # ps.print_operators()
         # ps.print_methods()
@@ -163,7 +164,7 @@ if __name__ == '__main__':
     #runTest()
     parser = argparse.ArgumentParser()
     parser.add_argument('test', default='test1', nargs='?')
-    parser.add_argument('--file', default='models/misty.hddl')
+    parser.add_argument('--file', default=['models/general.hddl'], action='append')
     parser.add_argument('--address', default='192.168.1.3')
     parser.add_argument('--interactive', action='store_true')
     parser.add_argument('--nao', action='store_true')
