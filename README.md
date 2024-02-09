@@ -1,8 +1,11 @@
 # Assitive Behavior Generator for Social Robots
 
-This package provides the interface for generating and executing  assistive behaviors of social robots.  The behaviors are intended to communicate a given *intent* while also attempting to meet various social norms and conventions for turn-taking, rapport development, and supporting user autonomy.
+This package provides an interface for generating and executing  assistive behaviors of social robots.  The behaviors are intended to communicate a given *intent* while also attempting to meet various social norms and conventions for turn-taking, rapport development, and supporting user autonomy.
+While various social robot platforms having differing capabilities and available modalities, the design goal is to have the same behavior exhibited across multiple platforms.  The following is a demonstration video of a few behaviors that are run on the NAO and Mistry robots.
 
-The behavior generation uses an ontology of social behaviors and a planner.  The ontology is realized in a hierarchical task network (HTN) model, and the planner (PyShop) uses this model to find a sequence of actions for the robot to perform.
+[![Watch a comparison of the NAO and Misty behaviors](https://img.youtube.com/vi/YDRcyy3Wsvc/0.jpg)](https://www.youtube.com/watch?v=YDRcyy3Wsvc)
+
+The behavior generation uses an ontology of social behaviors, a planner, and middleware to communicate with the robots.  The ontology, described further below, is realized in a hierarchical task network (HTN) model, and the planner (PyShop) uses this model to find a sequence of actions for the robot to perform.
 
 The current HTN model can be found in models/misty.hddl.  This model describes behaviors for assisting a user on assembling a tangram puzzle.
 
@@ -50,7 +53,7 @@ See `behavior_gen.py` for further examples.
 The primary function you need is `SarBehaviorGenerator.performBehaviorFor(intent, state)`, which will plan out the behavior and then execute it on the robot.
 
 
-## Modeling Behaviors
+## Ontology for Modeling Behaviors
 
 The `general.hddl` file describes a set of reusable behaviors.  This includes the more abstract *assistive intents* [1](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447), which are the basic types of communicative acts the robot may need to express.  The ontology from which these are derived describes the following types of intents:
 - Task-oriented
