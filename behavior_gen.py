@@ -6,19 +6,36 @@ import sys
 
 class SarBehaviorGenerator:
 
-    def __init__(self, robot, filePaths=['models/gneral.hddl']):
+    def __init__(self, robot, filePaths=['models/general.hddl']):
         self.robot = robot
         self.init_planner(filePaths)
+        self.last_plan = None
 
     def performBehaviorFor(self, intent, state):
         action_script = plan(state, [intent], self.ps)
         if action_script:
             robot.executeActionScript(plan_converter(action_script))
+            self.last_plan = action_script
             return True
         else:
             print("No behavior found for " + str(intent))
             return False
 
+
+    def trace_previous_action(self, action):
+        if self.last_plan is not None:
+            for step in self.last_plan:
+                if action['name'] == step[0][0]:
+                    explanation = "The action " + action['name'] + " was performed,\n"
+                    next_type = 'method'
+                    for trace in step[1:]:
+                        if next_type == 'method':
+                            explanation += "which was part of the method " + trace[0] + ",\n"
+                            next_type = 'task'
+                        elif next_type == 'task':
+                            explanation += "for the task " + trace[0] + "\n"
+                            next_type = 'method'
+                    return explanation
 
     def init_planner(self, filePaths):
         self.ps = PyShop('init')
@@ -109,7 +126,7 @@ def scenario7(state1, ps): #test confirm
 
 def scenario8(state1, ps): #test instruct level 3
     state1.add(["needsToBe","small blue triangle", "spin", "left"])
-    state1.add(["level", "l3"])
+    state1.add(["level", "l4"])
     return state1, ["instruct", "misty"]
     # return plan(state1, [["instruct", "Misty"]], ps)
 
@@ -183,6 +200,7 @@ if __name__ == '__main__':
         robot = r.SocialRobot(args.address)
         
     robot.startSkill()
+    args.file.reverse() # ensures the default behaviors are last/deprioritized
     beh_gen = SarBehaviorGenerator(robot, args.file)
 
     if args.interactive:
@@ -199,7 +217,7 @@ if __name__ == '__main__':
         last_plan = ''
         user_input = '?'
         while user_input[0] != 'q':
-            user_input = input('Enter command ([a]dd, [r]emove, [l]ist, [p]lan intent args, [q]uit):')
+            user_input = input('Enter command ([a]dd, [r]emove, [l]ist, [p]lan intent args, [t]race action, [q]uit):')
 
             if len(user_input) == 0:
                 user_input = last_plan
@@ -234,9 +252,11 @@ if __name__ == '__main__':
 
                     beh_gen.performBehaviorFor(task, state1)
 
-
-            if user_input == 'quit':
-                break
+            if (user_input[0] == "t"):
+                action = user_input[2:]
+                print(beh_gen.trace_previous_action({'name':action}))
+            # if user_input[0] == 'q':
+            #     break
         
 
     else:

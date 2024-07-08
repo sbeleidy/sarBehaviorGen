@@ -1,3 +1,4 @@
+import json
 
 class SocialRobot:
 
@@ -26,6 +27,8 @@ class SocialRobot:
         The 'action_script' parameter must be a list of dictionaries,
         where each dictionary describes one action in the action script.
         """
-        for action in action_script:
-            print(action)
+        payload = { "intent": "Explain1", "description": "Testing", "actionList": action_script };
+        print(json.dumps(payload, indent=4))
+        # for action in action_script:
+        #     print(action)
 

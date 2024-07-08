@@ -5,7 +5,7 @@ While various social robot platforms having differing capabilities and available
 
 [![Watch a comparison of the NAO and Misty behaviors](https://img.youtube.com/vi/YDRcyy3Wsvc/0.jpg)](https://www.youtube.com/watch?v=YDRcyy3Wsvc)
 
-The behavior generation uses an ontology of social behaviors, a planner, and middleware to communicate with the robots.  The ontology, described further below, is realized in a hierarchical task network (HTN) model, and the planner (PyShop) uses this model to find a sequence of actions for the robot to perform.
+The behavior generation uses an ontology of social behaviors, a planner, and middleware to communicate with the robots [\[2\]](#references).  The ontology, described further below, is realized in a hierarchical task network (HTN) model, and the planner (PyShop) uses this model to find a sequence of actions for the robot to perform.
 
 The current HTN model can be found in models/misty.hddl.  This model describes behaviors for assisting a user on assembling a tangram puzzle.
 
@@ -55,7 +55,7 @@ The primary function you need is `SarBehaviorGenerator.performBehaviorFor(intent
 
 ## Ontology for Modeling Behaviors
 
-The `general.hddl` file describes a set of reusable behaviors.  This includes the more abstract *assistive intents* [1](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447), which are the basic types of communicative acts the robot may need to express.  The ontology from which these are derived describes the following types of intents:
+The `general.hddl` file describes a set of reusable behaviors.  This includes the more abstract *assistive intents* [\[1\](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447), which are the basic types of communicative acts the robot may need to express.  The ontology from which these are derived describes the following types of intents:
 - Task-oriented
 	- Inform
 	- Instruct
@@ -78,8 +78,10 @@ Finally, the file describes the basic actions that are available:
 
 All of these actions are performed on the robot as non-blocking calls.  As a result, actions can be done nearly simultaneously by having them called one immediately after the other.  Currently, to have the next action be delayed and be performed after the previous one, the Pause action needs to be used. (Future developments will have options to allow each action to be synchronous or asynchronous).
 
-In the models directory, other hddl files may be found that extend the general behaviors to provide assistance for a specific task.  For example, the `tangram.hddl` file is used to generate the necessary behaviors for supporting a child complete a tangram puzzle [1](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447).
+In the models directory, other hddl files may be found that extend the general behaviors to provide assistance for a specific task.  For example, the `tangram.hddl` file is used to generate the necessary behaviors for supporting a child complete a tangram puzzle [\[1\](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447).
 
 ## References
 
-\[1\] Yang, Y., Langer, A., Howard, L., Marshall, P. J., & Wilson, J. R. (2023). [Towards an Ontology for Generating Behaviors for Socially Assistive Robots Helping Young Children.](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447) In Proceedings of the AAAI Symposium Series (Vol. 2, No. 1, pp. 213-218).
+\[1\] Yang, Y., Langer, A., Howard, L., Marshall, P. J., & Wilson, J. R. (2023). [Towards an Ontology for Generating Behaviors for Socially Assistive Robots Helping Young Children.](https://ojs.aaai.org/index.php/AAAI-SS/article/download/27674/27447) In *Proceedings of the AAAI Symposium Series* (Vol. 2, No. 1, pp. 213-218).
+
+\[2\] Wilson, J. R. & Yang, Y. (2024). Software Architecture to Generate Assistive Behaviors for Social Robots. In *HRI ’24 Companion*.
