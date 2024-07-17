@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyshop = {path = "./../FandM-Cares/pyshop"}
+
+[dev-packages]
+ipykernel = "*"
+
+[requires]
+python_version = "3.10"
