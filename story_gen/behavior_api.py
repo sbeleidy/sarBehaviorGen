@@ -1,9 +1,11 @@
 
 import json
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from behavior_parser import sentence_parser
-app = Flask(__name__)
 
+app = Flask(__name__)
+CORS(app)
 
 @app.route('/storyParser', methods = ['POST'])
 def story_parser():
