@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from behavior_parser import sentence_parser
 from behavior_gen import SarBehaviorGenerator, State
+import convert_action_scripts_to_robot_expressions as conv
 
 from dotenv import load_dotenv
 
@@ -41,12 +42,22 @@ def get_plan_from_text():
     state1.add(["affect","neutral"])
 
     intents = [[x["intent"], x["content"], x["emotion"]] for x in sentences]
-    plan = sbg.planBehaviorFor(intents, state1)
+    action_list = sbg.planBehaviorFor(intents, state1)
+    simultaneous_actions_list = conv.break_action_list_into_simultaneous_action_lists(action_list)
+    buttons = [conv.convert_simultaneous_action_list_to_expression(simul_action) for simul_action in simultaneous_actions_list]
+    
+    # for item in action_list:
+    #     print("Item:\n")
+    #     print(item)
+    
+    # for btn in buttons:
+    #     print("Button\n")
+    #     print(btn)
     return jsonify({
         "sentences": sentences,
-        "plan": plan
+        "buttons": buttons
     })
 
 
 if __name__ == '__main__':
-   app.run(port=5000)
+   app.run(port=5000, debug=True)
