@@ -12,23 +12,35 @@ class SarBehaviorGenerator:
         self.last_plan = None
 
     def performBehaviorFor(self, intent, state):
-        action_script = plan(state, [intent], self.ps)
+        return self.performMultipleBehaviorsFor([intent], state)
+        
+    def performMultipleBehaviorsFor(self, intents, state):
+        action_script = self.planBehaviorFor(intents, state)
         if action_script:
-            robot.executeActionScript(plan_converter(action_script))
-            self.last_plan = action_script
+            robot.executeActionScript(action_script)
             return True
         else:
-            print("No behavior found for " + str(intent))
+            print("No behavior found for " + str(intents))
+            return False    
+    
+    def planBehaviorFor(self, intent, state):
+        action_script = plan(state, intent, self.ps)
+        if action_script:
+            action_script = plan_converter(action_script)
+            self.last_plan = action_script
+            return action_script
+        else:
             return False
-
-
+        
     def trace_previous_action(self, action):
         if self.last_plan is not None:
             for step in self.last_plan:
-                if action['name'] == step[0][0]:
+                #if action['name'] == step[0][0]:
+                if action['name'] == step['name']:
                     explanation = "The action " + action['name'] + " was performed,\n"
                     next_type = 'method'
-                    for trace in step[1:]:
+                    #for trace in step[1:]:
+                    for trace in step['metadata']['trace']:
                         if next_type == 'method':
                             explanation += "which was part of the method " + trace[0] + ",\n"
                             next_type = 'task'

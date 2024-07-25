@@ -294,6 +294,28 @@ INSTRUCT DEFUALT;
         (SetEyes confused ))
     )
 
+5 INFORM
+
+(:method inform-positively
+    :parameters()
+    :task(inform ?text)
+    :precondition(and
+        (affect negative))
+    :ordered-subtasks(and
+        (TiltHead left small )
+        (take-turn)
+        (Pause 500)
+        (SayText ?text )
+        (release-turn))
+    )
+
+(:method state-info
+    :parameters()
+    :task(inform ?text)
+    :precondition ()
+    :ordered-subtasks(and
+        (SayText ?text ))
+    )
 
 8 SOCIAL;
 
