@@ -6,9 +6,9 @@ from behavior_parser import sentence_parser
 from behavior_gen import SarBehaviorGenerator, State
 import convert_action_scripts_to_robot_expressions as conv
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 
 app = Flask(__name__)
@@ -33,9 +33,9 @@ def get_intents_from_text():
 @cross_origin()
 def get_plan_from_text():
     data = json.loads(request.data)
-    sentences = sentence_parser(data["text"]) 
+    sentences = sentence_parser(data["Story"]) 
 
-    sbg = SarBehaviorGenerator(None)
+    sbg = SarBehaviorGenerator(None, filePaths=['../models/general.hddl'])
     state1 = State("interactive")
     state1.add(["gaze","center"])
     state1.add(["rapport","low"])

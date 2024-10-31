@@ -304,6 +304,7 @@ INSTRUCT DEFUALT;
     :ordered-subtasks(and
         (TiltHead left small )
         (take-turn)
+        (SetEyes happy)
         (Pause 500)
         (SayText ?text )
         (release-turn))
@@ -406,6 +407,14 @@ INSTRUCT DEFUALT;
         (SayText "I see") 
         (release-turn )))
 
+(:method rapport-build-social
+    :parameters()
+    :task(social ?text )
+    :precondition(and
+        (rapport low))
+    :ordered-subtasks(and
+        (build-rapport)
+        (sayTextandPause ?text)))
 
 (:method delay-social
     :parameters()
@@ -494,8 +503,7 @@ HESITATION;
 (:method thinking 
     :parameters()
     :task (delay )
-    :precondition (and
-        (rapport low))
+    :precondition ()
     :ordered-subtasks(and
         (setEyesandPause confused)
         (TiltHead left large)
@@ -510,6 +518,16 @@ HESITATION;
         (SayText "Ok") 
         (release-turn )))
 
+(:method work-together 
+    :parameters()
+    :task (build-rapport )
+    :precondition (and
+        (rapport low))
+    :ordered-subtasks(and
+        (setEyesandPause confused)
+        (TiltHead left large)
+        (SayText "Let's do this together!")
+        (NoOp-SetRapport medium)))
 
 10 TAKE TURN & RELEASE TURN;
 
@@ -831,8 +849,8 @@ OPERATORS;
 
 (:action LookInDirection
     :parameters (?dir)
-    :precondition ( )
-    :effect ())
+    :precondition()
+    :effect())
 
 (:action SetEyes
     :parameters (?emotion)
@@ -849,4 +867,10 @@ OPERATORS;
     :precondition()
     :effect())
 
-
+(:action NoOp-SetRapport
+    :parameters (?val)
+    :precondition(and
+        (rapport ?old))
+    :effect(and
+        (not (rapport ?old))
+        (rapport ?val)))

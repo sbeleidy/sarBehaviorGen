@@ -12,16 +12,15 @@ def sentence_parser(para):
         api_key = SESSION_KEY,
     )
 
-    lines = re.split(r'(?<=[.!?])', para)
+    #lines = re.split(r'(?<=[.!?])', para)
     intentList = []
-    for x in lines:
-        if len(x) > 2:
+    for x in para:
+        if len(x) > 1:
             # print(x)
             intent = behavior_type(x, client)
             # print(intent)
             keyVal = {"intent": intent[0].text.lower(), "content": x, "emotion": "posititve"}
             intentList.append(keyVal)
-
     return intentList
 
 

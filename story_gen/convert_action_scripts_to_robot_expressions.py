@@ -27,12 +27,17 @@ def break_action_list_into_simultaneous_action_lists(action_list):
     """
     simultaneous_action_lists = []
     chunk = []
+    one_text = False
     for action in action_list:
-        if action["name"] == "Pause":
+        if one_text and action["name"] == "SayText": 
+            one_text = False
             if len(chunk) > 0:
                 simultaneous_action_lists.append(chunk)
             chunk = []
-        else:
+        if action["name"] == "SayText":
+            one_text = True
+            chunk.append(action)
+        elif action["name"] != "Pause":
             chunk.append(action)
 
     if len(chunk) > 0:
