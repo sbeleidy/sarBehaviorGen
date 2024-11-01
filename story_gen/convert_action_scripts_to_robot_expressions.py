@@ -15,6 +15,8 @@ This converter only considers the following action names:
 "Pause" is used to break up an action script into an order of asynchronous expressions
 """
 
+from collections import defaultdict
+
 
 def break_action_list_into_simultaneous_action_lists(action_list):
     """Split action list into expressions broken up by pauses
@@ -29,7 +31,7 @@ def break_action_list_into_simultaneous_action_lists(action_list):
     chunk = []
     one_text = False
     for action in action_list:
-        if one_text and action["name"] == "SayText": 
+        if one_text and action["name"] == "SayText":
             one_text = False
             if len(chunk) > 0:
                 simultaneous_action_lists.append(chunk)
@@ -44,6 +46,21 @@ def break_action_list_into_simultaneous_action_lists(action_list):
         simultaneous_action_lists.append(chunk)
 
     return simultaneous_action_lists
+
+
+def map_SetEyes_to_Peerbots_Emotion(SetEyes_emotion):
+    return defaultdict(
+        lambda x: "Neutral",
+        {
+            "happy": "Happy",
+            "confused": "Surprised",
+            "thinking": "Neutral",
+            "scared": "Concerned",
+            "terrified": "Sad",
+            "default": "Neutral",
+        },
+    )[SetEyes_emotion]
+
 
 def convert_simultaneous_action_list_to_expression(simultaneous_actions):
     """Convert a list of actions that would be performed simultaneously to a single robot expression
@@ -64,16 +81,12 @@ def convert_simultaneous_action_list_to_expression(simultaneous_actions):
             title = action["args"][0][:30]
         if action["name"] == "SetEyes":
             # TODO: Figure out both emotion and color from SetEyes
-            emotion = action["args"][0]
+            emotion = map_SetEyes_to_Peerbots_Emotion(action["args"][0])
             # color = action["args"][1]
-    
+
     # TODO: Figure out what should happen if nothing was set (for example if simultaneous action list is only a gesture)
-    return {
-        "title": title,
-        "speech": speech,
-        "color": color,
-        "emotion": emotion
-    }
+    return {"title": title, "speech": speech, "color": color, "emotion": emotion}
+
 
 def convert_action_script_to_robot_expression(action_script):
     """Convert an action script to a list of synchrononous robot expressions
@@ -86,4 +99,7 @@ def convert_action_script_to_robot_expression(action_script):
     """
     actions = action_script["actionList"]
     simultaneous_actions = break_action_list_into_simultaneous_action_lists(actions)
-    return [convert_simultaneous_action_list_to_expression(simultaneous_action) for simultaneous_action in simultaneous_actions]
+    return [
+        convert_simultaneous_action_list_to_expression(simultaneous_action)
+        for simultaneous_action in simultaneous_actions
+    ]
