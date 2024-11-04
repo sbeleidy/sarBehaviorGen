@@ -50,7 +50,7 @@ def break_action_list_into_simultaneous_action_lists(action_list):
 
 def map_SetEyes_to_Peerbots_Emotion(SetEyes_emotion):
     return defaultdict(
-        lambda x: "Neutral",
+        lambda : "Neutral",
         {
             "happy": "Happy",
             "confused": "Surprised",
@@ -81,7 +81,8 @@ def convert_simultaneous_action_list_to_expression(simultaneous_actions):
             title = action["args"][0][:30]
         if action["name"] == "SetEyes":
             # TODO: Figure out both emotion and color from SetEyes
-            emotion = map_SetEyes_to_Peerbots_Emotion(action["args"][0])
+            if emotion == "Neutral":
+                emotion = map_SetEyes_to_Peerbots_Emotion(action["args"][0])
             # color = action["args"][1]
 
     # TODO: Figure out what should happen if nothing was set (for example if simultaneous action list is only a gesture)

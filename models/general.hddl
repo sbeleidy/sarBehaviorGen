@@ -306,6 +306,7 @@ INSTRUCT DEFUALT;
         (sayTextandPause ?text )
         (tiltHeadandPause right small )
         (SetEyes confused )
+        (NoOp-SetAffect negative)
         (release-turn ))
     )
 
@@ -431,13 +432,6 @@ INSTRUCT DEFUALT;
         (build-rapport)
         (sayTextandPause ?text)))
 
-(:method delay-social
-    :parameters()
-    :task(social ?text)
-    :precondition()
-    :ordered-subtasks(and
-        (delay ?text)))
-
 (:method empty-positive-phrase
     :parameters()
     :task(social )
@@ -447,6 +441,13 @@ INSTRUCT DEFUALT;
         (take-turn )
         (sayTextandPause "Cool") 
         (release-turn )))
+
+(:method delay-social
+    :parameters()
+    :task(social ?text)
+    :precondition()
+    :ordered-subtasks(and
+        (delay ?text)))
 
 9 SELF CORRECT;
 
@@ -533,10 +534,10 @@ HESITATION;
     :precondition()
     :ordered-subtasks(and
         (take-turn )
-        (NoOp-SetRapport low)
         (SayText "Ok") 
         (Pause 500)
         (SayText ?text)
+        (NoOp-SetAffect positive)
         (release-turn )))
 
 (:method work-together 
@@ -895,3 +896,12 @@ OPERATORS;
     :effect(and
         (not (rapport ?old))
         (rapport ?val)))
+
+
+(:action NoOp-SetAffect
+    :parameters (?val)
+    :precondition(and
+        (affect ?old))
+    :effect(and
+        (not (affect ?old))
+        (affect ?val)))
