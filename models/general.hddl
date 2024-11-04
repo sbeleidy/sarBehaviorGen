@@ -285,13 +285,28 @@ INSTRUCT DEFUALT;
 (:method offer-help-question
     :parameters ()
     :task (inquire )
-    :precondition ()
+    :precondition (and
+        (level l1))
     :ordered-subtasks(and
         (SetEyes thinking )
         (tiltHeadandPause left small )
         (sayTextandPause "Do you want any help?" )
         (tiltHeadandPause right small )
         (SetEyes confused ))
+    )
+
+(:method offer-help-question
+    :parameters ()
+    :task (inquire ?text)
+    :precondition ()
+    :ordered-subtasks(and
+        (take-turn )
+        (SetEyes thinking )
+        (tiltHeadandPause left small )
+        (sayTextandPause ?text )
+        (tiltHeadandPause right small )
+        (SetEyes confused )
+        (release-turn ))
     )
 
 5 INFORM
@@ -418,11 +433,20 @@ INSTRUCT DEFUALT;
 
 (:method delay-social
     :parameters()
-    :task(social )
+    :task(social ?text)
     :precondition()
     :ordered-subtasks(and
-        (delay)))
+        (delay ?text)))
 
+(:method empty-positive-phrase
+    :parameters()
+    :task(social )
+    :precondition(and
+        (affect positive))
+    :ordered-subtasks(and
+        (take-turn )
+        (sayTextandPause "Cool") 
+        (release-turn )))
 
 9 SELF CORRECT;
 
@@ -488,6 +512,7 @@ HESITATION;
         (SetEyes scared )
         (sayTextandPause "Sorry, I am a little slow sometimes" )
         (TiltHead right small )
+        (NoOp-SetRapport medium)
         (release-turn)))
 
 
@@ -497,25 +522,21 @@ HESITATION;
     :precondition (and
         (rapport low))
     :ordered-subtasks(and
-        (SetEyes happy )
-        (SayText "Im thinking." )))
-
-(:method thinking 
-    :parameters()
-    :task (delay )
-    :precondition ()
-    :ordered-subtasks(and
         (setEyesandPause confused)
-        (TiltHead left large)
-        (SayText "Im thinking")))
+        (TiltHead left large)        
+        (SayText "Im thinking." )
+        (NoOp-SetRapport low)))
 
 (:method empty-phrase-ok
     :parameters()
-    :task(delay )
+    :task(delay ?text)
     :precondition()
     :ordered-subtasks(and
         (take-turn )
+        (NoOp-SetRapport low)
         (SayText "Ok") 
+        (Pause 500)
+        (SayText ?text)
         (release-turn )))
 
 (:method work-together 
